@@ -1,5 +1,5 @@
 /**
- * Provides generic Board module for writing board games.
+ * Provides BitBoard module for writing board games.
  * An example of an 8x8 Board is depicted as follows: 
  *
  *             01234567  (X)
@@ -14,21 +14,22 @@
  *            
  *           (Y)
  *
- * @module Board
+ * @module BitBoard
  */ 
 
-var module = module || {};
-
-module.Board = (function() {
+define(function() {
     'use strict';
 
-    // private variables for BitBoard class
-    var width;
-    var height;
-    var bitboard;
+    // TODO: should i make these variables internal
+    //       or per copy for each BitBoard object?
+    // internal private variables for BitBoard class
+    var width;  // should be internal and constant and only need one copy -> make it static
+    var height; // make it static
 
-    var numPlayers;
-    var players;
+    var numPlayers; // make it static (should be a constant once initialized)
+
+    var players;  // should be per BitBoard instance -> make it instance variable
+    var bitboard; // should be per BitBoard instance -> make it instance variable
 
     /**
      * Represents a BitBoard: https://chessprogramming.wikispaces.com/Bitboards
@@ -48,6 +49,7 @@ module.Board = (function() {
     }
 
     /** @function setPosition
+     * Sets a player's position on board.
      * 
      * @param {number} player - the player for which the postion to be set
      * @param {number} x - the x coordinate of the postion
@@ -58,7 +60,8 @@ module.Board = (function() {
         players [player] = y*height + x;
     };
 
-    /** @function setPosition
+    /** @function getPosition
+     * Gets a player's position on board.
      * 
      * @param {number} player - the player for which the postion to be retrieved
      * @returns {Object} - the x and y coordinate in Object literal format
@@ -72,11 +75,10 @@ module.Board = (function() {
         };
     };
 
-    // BitBoard.prototype.getBoard    = function () {};
-
-    // return a module/namespace!
-    return {
-        BitBoard: BitBoard
-        // init: ;
+    // TODO: create a function to return a copy of current BitBoard object!
+    BitBoard.prototype.getBoardCopy = function () {
     };
-})();
+
+    // return BitBoard constructor function!
+    return BitBoard;
+});
