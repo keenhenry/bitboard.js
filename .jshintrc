@@ -1,4 +1,9 @@
 {
     "undef" : true,
-    "typed" : true
+    "typed" : true,
+
+    "predef": [
+        "require",
+        "define"
+    ]
 }
