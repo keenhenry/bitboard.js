@@ -1,4 +1,4 @@
-SRC=Board.js test.js
+SRC=Board.js testBoard.js
 
 .PHONY: lint docs clean
 
