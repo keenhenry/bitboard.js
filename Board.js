@@ -79,6 +79,21 @@ define(function() {
     BitBoard.prototype.getBoardCopy = function () {
     };
 
-    // return BitBoard constructor function!
-    return BitBoard;
+    // TODO: a debugging method to print current board
+    BitBoard.prototype.printBoard = function () {
+        console.log("I am alive!!!");
+    };
+
+    // return initBitBoard function!
+    return {
+        initBitBoard: function(np, w, h) {
+            var board = new BitBoard(np, w, h);
+
+            for (var i = 0; i < height; ++i) {
+                bitboard[i] = 0;
+            }
+
+            return board;
+        }
+    };
 });
