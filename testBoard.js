@@ -7,9 +7,22 @@ requirejs.config({
     nodeRequire: require
 });
 
-requirejs(['Board'], function (Board) {
-    var b = Board.initBitBoard(2, 8, 8);
+requirejs(['BitBoard'], function (mBitBoard) {
+    var b = mBitBoard.initBitBoard(2, 8, 8);
 
+    // print out board state to console
+    console.log("BOARD B STATE:");
+    b.setPosition(0, 3, 0);
     b.printBoard();
-    
+
+    console.log("BOARD A STATE:");
+    var a = mBitBoard.initBitBoard(2, 8, 8);
+    a.setPosition(0, 3, 5);
+    a.setPosition(0, 4, 6);
+    a.printBoard();
+
+    console.log("BOARD B STATE:");
+    b.printBoard();
+    b.setPosition(0, 3, 0);
+    b.printBoard();
 });
