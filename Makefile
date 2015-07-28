@@ -1,6 +1,10 @@
+RUN=testBoard.js
 SRC=BitBoard.js testBoard.js
 
-.PHONY: lint docs clean
+.PHONY: test lint docs clean
+
+test:
+	node $(RUN)
 
 lint:
 	jshint $(SRC)
