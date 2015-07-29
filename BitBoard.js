@@ -1,5 +1,6 @@
-/**
+/** @module BitBoard
  * Provides BitBoard module for writing board games.
+ *
  * An example of an 8x8 Board is depicted as follows: 
  *
  *             01234567  (X)
@@ -13,39 +14,46 @@
  *            7........
  *            
  *           (Y)
- *
- * @module BitBoard
  */ 
 
 define(function() {
     'use strict';
 
-    // TODO: should i make these variables internal
-    //       or per copy for each BitBoard object?
-    // internal private variables for BitBoard class
-    var width;  // should be internal and constant and only need one copy -> make it static
-    var height; // make it static
+    //==============================================//
+    // static constant variables for class BitBoard //
+    //==============================================//
 
-    var numPlayers; // make it static (should be a constant once initialized)
+    /** @private */
+    var numPlayers;
 
-    var players;  // should be per BitBoard instance -> make it instance variable
-    var bitboard; // should be per BitBoard instance -> make it instance variable
+    /** @private */
+    var width;
+
+    /** @private */
+    var height;
+
+    /** @const {number} - row mask of board row */
+    var ROW_MASK = 128;
 
     /**
      * Represents a BitBoard: https://chessprogramming.wikispaces.com/Bitboards
      *
      * @constructor
+     * @class
      * @param {number} np - number of players for this bitboard
      * @param {number} w - width of this bitboard
      * @param {number} h - height this bitboard
      */
     function BitBoard (np, w, h) {
+        numPlayers = np;
         width      = w;
         height     = h;
-        bitboard   = new Uint8Array(new ArrayBuffer(width * height / 8));
 
-        numPlayers = np;
-        players    = [];
+        /** @public */
+        this.players  = [];
+
+        /** @public */
+        this.bitboard = new Uint8Array(new ArrayBuffer(w * Math.floor(h/8)));
     }
 
     /** @function setPosition
@@ -56,8 +64,9 @@ define(function() {
      * @param {number} y - the y coordinate of the postion
      */
     BitBoard.prototype.setPosition = function (player, x, y) {
-        bitboard[y]      = 128 >>> x;
-        players [player] = y*height + x;
+        // TODO: need to check if that position is already taken before setting?!
+        this.bitboard[y]     |= ROW_MASK >>> x;
+        this.players [player] = y*height + x;
     };
 
     /** @function getPosition
@@ -67,22 +76,41 @@ define(function() {
      * @returns {Object} - the x and y coordinate in Object literal format
      */
     BitBoard.prototype.getPosition = function (player) {
-        var pos = players[player];
+        var pos = this.players[player];
 
         return {
             x: pos % 8,
-            y: pos / 8
+            y: Math.floor(pos/8)
         };
     };
 
-    // TODO: create a function to return a copy of current BitBoard object!
+    /** @function getBoardCopy
+     * Copy instance variables for a BitBoard object and return a new object.
+     * 
+     * @returns {BitBoard} - a new object copy with same instance variable contents
+     */
     BitBoard.prototype.getBoardCopy = function () {
+        var board = new BitBoard(numPlayers, width, height);
+
+        board.player = this.player.slice();
+
+        for (var r = 0; r < height; ++r) {
+            board.bitboard[r] = this.bitboard[r];
+        }
+
+        return board;
     };
 
-    BitBoard.prototype.printBoard = function () {
+    /** @function @public printBoard
+     * A debugging method for this module; it is exposed to public interface.
+     * It prints out the board state to console.
+     *
+     * @param {Uint8Array} - the bitboard data structure to be printed
+     */
+    var printBoard = function (board) {
 
         console.log();
-        console.log("bit-board internal state as follows:");
+        console.log("bit-board looks like:");
         console.log();
 
         var strBoard = "";
@@ -90,7 +118,7 @@ define(function() {
         {
             for (var col = 0; col < width; ++col)
             {
-                strBoard += (bitboard[row]&(128>>>col))? "1" : "0"; 
+                strBoard += (board[row]&(ROW_MASK>>>col))? "1" : "0"; 
             }
             strBoard += "\n";
         }
@@ -98,16 +126,19 @@ define(function() {
         console.log(strBoard);
     };
 
-    // return initBitBoard function!
+    // export module public interface
     return {
-        initBitBoard: function(np, w, h) {
+        initBitBoard: function(np, w, h /*, ppa */) {
+            // TODO: probably need to pass in player position array 
+            //       and set it also in this function
             var board = new BitBoard(np, w, h);
 
             for (var i = 0; i < height; ++i) {
-                bitboard[i] = 0;
+                board.bitboard[i] = 0;
             }
 
             return board;
-        }
+        },
+        printBoard: printBoard
     };
 });
