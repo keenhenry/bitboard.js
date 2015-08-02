@@ -92,7 +92,7 @@ define(function() {
      * @returns {BitBoard} - a new object copy with same instance variable contents
      */
     BitBoard.prototype.getBoardCopy = function () {
-        var board = new BitBoard(numPlayers, width, height);
+        var board = new BitBoard(width, height);
 
         board.player = this.player.slice();
 
@@ -128,7 +128,7 @@ define(function() {
         console.log(strBoard);
     };
 
-    /** @function checkPositiveInt
+    /** @function @private checkPositiveInt
      * A helper function to safeguard the inputs to initBitBoard function.
      * It checks if the input value is a positive integer.
      *
