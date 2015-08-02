@@ -11,7 +11,7 @@ requirejs(['../BitBoard'], function (mBitBoard) {
 
     // TODO: group tests into unit tests
     console.log("BOARD INITIALIZED:");
-    var b1 = mBitBoard.initBitBoard(2, 8, 8);
+    var b1 = mBitBoard.initBitBoard(8, 8);
     mBitBoard.printBoard(b1.bitboard);
 
     console.log("BOARD UPDATE player 0 position to (3,0):");
@@ -28,7 +28,7 @@ requirejs(['../BitBoard'], function (mBitBoard) {
     mBitBoard.printBoard(b1.bitboard);
 
     console.log("ANOTHER BOARD INITIALIZED:");
-    var b2 = mBitBoard.initBitBoard(2, 8, 8);
+    var b2 = mBitBoard.initBitBoard(8, 8);
     mBitBoard.printBoard(b2.bitboard);
     console.log("PREVIOUS BOARD:");
     mBitBoard.printBoard(b1.bitboard);

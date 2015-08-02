@@ -24,9 +24,6 @@ define(function() {
     //==============================================//
 
     /** @private */
-    var numPlayers;
-
-    /** @private */
     var width;
 
     /** @private */
@@ -40,12 +37,10 @@ define(function() {
      *
      * @constructor
      * @class
-     * @param {number} np - number of players for this bitboard
      * @param {number} w - width of this bitboard
      * @param {number} h - height this bitboard
      */
-    function BitBoard (np, w, h) {
-        numPlayers = np;
+    function BitBoard (w, h) {
         width      = w;
         height     = h;
 
@@ -62,11 +57,18 @@ define(function() {
      * @param {number} player - the player for which the postion to be set
      * @param {number} x - the x coordinate of the postion
      * @param {number} y - the y coordinate of the postion
+     * @return {boolean} - indication of success of set operation
      */
     BitBoard.prototype.setPosition = function (player, x, y) {
-        // TODO: need to check if that position is already taken before setting?!
+
+        // check if position already used
+        if ( this.bitboard[y] & (ROW_MASK >>> x) )
+            return false;
+
         this.bitboard[y]     |= ROW_MASK >>> x;
         this.players [player] = y*height + x;
+
+        return true;
     };
 
     /** @function getPosition
@@ -126,15 +128,40 @@ define(function() {
         console.log(strBoard);
     };
 
+    /** @function checkPositiveInt
+     * A helper function to safeguard the inputs to initBitBoard function.
+     * It checks if the input value is a positive integer.
+     *
+     * @param {number} - the input to be checked
+     * @return {boolean} - check passed or not
+     */
+    var checkPositiveInt = function (x) {
+        return (typeof x==="number" && Math.floor(x)===x && x > 0);
+    };
+
     // export module public interface
     return {
-        initBitBoard: function(np, w, h /*, ppa */) {
-            // TODO: probably need to pass in player position array 
-            //       and set it also in this function
-            var board = new BitBoard(np, w, h);
+        initBitBoard: function(w, h) {
+            var i, board;
 
-            for (var i = 0; i < height; ++i) {
-                board.bitboard[i] = 0;
+            if ( arguments.length != 2 )
+            {
+                throw new Error("function initBitBoard called with " + arguments.legnth + " arguments, but it expects 2 arguments");
+            }
+
+            if ( !checkPositiveInt(w) )
+            {
+                throw new Error("function initBitBoard expects the first argument to be an integer bigger than 0");
+            }
+
+            if ( !checkPositiveInt(h) )
+            {
+                throw new Error("function initBitBoard expects the second argument to be an integer bigger than 0");
+            }
+
+            board = new BitBoard(w, h);
+            for (i = 0; i < height; ++i) {
+                board.bitboard[i] = 0; 
             }
 
             return board;
