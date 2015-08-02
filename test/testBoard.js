@@ -7,8 +7,9 @@ requirejs.config({
     nodeRequire: require
 });
 
-requirejs(['BitBoard'], function (mBitBoard) {
+requirejs(['../BitBoard'], function (mBitBoard) {
 
+    // TODO: group tests into unit tests
     console.log("BOARD INITIALIZED:");
     var b1 = mBitBoard.initBitBoard(2, 8, 8);
     mBitBoard.printBoard(b1.bitboard);
