@@ -1,0 +1,17 @@
+{
+    "name": "bitboard",
+    "version": "0.0.1",
+    "description": "simple bitboard for developing board games in javascript",
+    "author": "Henry Huang",
+    "license": "MIT",
+    "devDependencies": {
+        "jshint": "latest",
+        "mocha": "latest"
+    },
+    "scripts": {
+        "build": "make lint; make test",
+        "lint" : "make lint",
+        "test" : "make test",
+        "clean": "make clean"
+    }
+}
