@@ -4,7 +4,7 @@ SRC=BitBoard.js
 TESTS=test/*.js
 
 test:
-	node $(TESTS)
+	mocha $(TESTS)
 
 lint:
 	jshint $(SRC)
