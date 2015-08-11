@@ -146,7 +146,7 @@ define(function() {
 
             if ( arguments.length != 2 )
             {
-                throw new Error("function initBitBoard called with " + arguments.legnth + " arguments, but it expects 2 arguments");
+                throw new Error("function initBitBoard called with " + arguments.length + " arguments, but it expects 2 arguments");
             }
 
             if ( !checkPositiveInt(w) )
