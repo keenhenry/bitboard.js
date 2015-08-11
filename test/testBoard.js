@@ -4,81 +4,87 @@ requirejs.config({
     //Pass the top-level main.js/index.js require
     //function to requirejs so that node modules
     //are loaded relative to the top-level JS file.
+    baseUrl: '.',
     nodeRequire: require
 });
 
 describe('BitBoard', function() {
 
-    // TODO: should define certain hooks for every tests to run
+    var module = requirejs('./BitBoard.js'),
+        assert = require('assert');
+
+    // You can also load module asynchronously like the following:
+    // before(function(done) {
+    //     requirejs(['BitBoard'], function (mBitBoard) {
+    //         module = mBitBoard;
+    //         done();
+    //     });
+    // });
+
     describe('#initBitBoard()', function() {
-        var assert = require('assert');
 
         it('should throw error for only one argument', function() {
-            requirejs(['../BitBoard'], function (mBitBoard) {
-                try {
-                    var b = mBitBoard.initBitBoard(2);
-                }
-                catch (e) {
-                    assert.equal(e.message, "function initBitBoard called with 1 arguments, but it expects 2 arguments");
-                }
-            });
+            try {
+                module.initBitBoard(2);
+            }
+            catch (e) {
+                assert.equal(e.message, "function initBitBoard called with 1 arguments, but it expects 2 arguments");
+            }
         });
 
         it('should throw error for more than 2 arguments', function() {
-            requirejs(['../BitBoard'], function (mBitBoard) {
-                try {
-                    var b = mBitBoard.initBitBoard(2, 4, 4);
-                }
-                catch (e) {
-                    assert.equal(e.message, "function initBitBoard called with 3 arguments, but it expects 2 arguments");
-                }
-            });
+            try {
+                module.initBitBoard(2, 4, 4);
+            }
+            catch (e) {
+                assert.equal(e.message, "function initBitBoard called with 3 arguments, but it expects 2 arguments");
+            }
         });
 
         it('should throw error for non-number first argument', function() {
-            requirejs(['../BitBoard'], function (mBitBoard) {
-                try {
-                    var b = mBitBoard.initBitBoard('4', 4);
-                }
-                catch (e) {
-                    assert.equal(e.message, "function initBitBoard expects the first argument to be an integer bigger than 0");
-                }
-            });
+            try {
+                module.initBitBoard('4', 4);
+            }
+            catch (e) {
+                assert.equal(e.message, "function initBitBoard expects the first argument to be an integer bigger than 0");
+            }
         });
 
         it('should throw error for non-integer first argument', function() {
-            requirejs(['../BitBoard'], function (mBitBoard) {
-                try {
-                    var b = mBitBoard.initBitBoard(4.5, 4);
-                }
-                catch (e) {
-                    assert.equal(e.message, "function initBitBoard expects the first argument to be an integer bigger than 0");
-                }
-            });
+            try {
+                module.initBitBoard(4.5, 4);
+            }
+            catch (e) {
+                assert.equal(e.message, "function initBitBoard expects the first argument to be an integer bigger than 0");
+            }
         });
 
         it('should throw error for negative integer first argument', function() {
-            requirejs(['../BitBoard'], function (mBitBoard) {
-                try {
-                    var b = mBitBoard.initBitBoard(-4, 4);
-                }
-                catch (e) {
-                    assert.equal(e.message, "function initBitBoard expects the first argument to be an integer bigger than 0");
-                }
-            });
+            try {
+                module.initBitBoard(-4, 4);
+            }
+            catch (e) {
+                assert.equal(e.message, "function initBitBoard expects the first argument to be an integer bigger than 0");
+            }
         });
+    });
 
+    describe('#printBoard()', function() {
         it('should print BitBoard content', function() {
-            requirejs(['../BitBoard'], function (mBitBoard) {
-                mBitBoard.printBoard(mBitBoard.initBitBoard(4, 4));
-            });
+            module.printBoard(module.initBitBoard(4, 4));
         });
+    });
+
+    describe('#getPosition', function() {
+    });
+
+    describe('#setPosition', function() {
+    });
+
+    describe('#getBoardCopy', function() {
     });
 });
 
-// var b1 = mBitBoard.initBitBoard(8, 8);
-// mBitBoard.printBoard(b1.bitboard);
-//
 // console.log("BOARD UPDATE player 0 position to (3,0):");
 // b1.setPosition(0, 3, 0);
 // mBitBoard.printBoard(b1.bitboard);
