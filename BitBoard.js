@@ -61,6 +61,8 @@ define(function() {
      */
     BitBoard.prototype.setPosition = function (player, x, y) {
 
+        // TODO: sanitize inputs as well, throw error for anomaly
+
         // check if position already used
         if ( this.bitboard[y] & (ROW_MASK >>> x) )
             return false;
@@ -79,6 +81,9 @@ define(function() {
      */
     BitBoard.prototype.getPosition = function (player) {
         var pos = this.players[player];
+
+        if ( typeof pos == 'undefined' )
+            throw new Error('player ' + player + ' is not defined yet!');
 
         return {
             x: pos % 8,

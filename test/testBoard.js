@@ -1,4 +1,5 @@
 var requirejs = require('requirejs');
+var chai      = require('chai');
 
 requirejs.config({
     //Pass the top-level main.js/index.js require
@@ -11,7 +12,8 @@ requirejs.config({
 describe('BitBoard', function() {
 
     var module = requirejs('./BitBoard.js'),
-        assert = require('assert');
+        assert = chai.assert,
+        should = chai.should();
 
     // You can also load module asynchronously like the following:
     // before(function(done) {
@@ -76,9 +78,17 @@ describe('BitBoard', function() {
     });
 
     describe('#getPosition', function() {
+        var b = module.initBitBoard(8,8); // create a 8x8 board
+
+        it('should throw Error', function() {
+            (function() {
+                b.getPosition(0);
+            }).should.throw();
+        });
     });
 
     describe('#setPosition', function() {
+        // var b = module.initBitBoard(8,8); // create a 8x8 board
     });
 
     describe('#getBoardCopy', function() {

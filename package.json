@@ -6,7 +6,8 @@
     "license": "MIT",
     "devDependencies": {
         "jshint": "latest",
-        "mocha": "latest"
+        "mocha" : "latest",
+        "chai"  : "*"
     },
     "scripts": {
         "build": "make lint; make test",
