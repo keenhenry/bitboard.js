@@ -71,52 +71,64 @@ describe('BitBoard', function() {
         });
     });
 
-    describe('#printBoard()', function() {
-        it('should print BitBoard content', function() {
-            module.printBoard(module.initBitBoard(4, 4));
+    var b = module.initBitBoard(8,8); // create a 8x8 board
+
+    describe('#setPosition', function() {
+
+        it('should throw Error - no coordinates provided', function() {
+            (function() {
+                b.setPosition(0);
+            }).should.throw();
         });
+
+        it('should throw Error - coordinates out of bounds', function() {
+            (function() {
+                b.setPosition(0, 3, 8);
+            }).should.throw();
+        });
+
+        it('should throw Error - coordinates out of bounds', function() {
+            (function() {
+                b.setPosition(0, -1, 2);
+            }).should.throw();
+        });
+
+        it('positions should be set successfully', function() {
+            assert.isTrue(b.setPosition(0, 1, 1), "player 0 is now at (1,1)");
+            assert.isTrue(b.setPosition(0, 2, 3), "player 0 is now at (2,3)");
+            assert.isTrue(b.setPosition(1, 3, 4), "player 1 is now at (3,4)");
+            assert.isTrue(b.setPosition(2, 7, 7), "player 2 is now at (7,7)");
+        });
+
     });
 
     describe('#getPosition', function() {
-        var b = module.initBitBoard(8,8); // create a 8x8 board
 
-        it('should throw Error', function() {
+        it('should throw Error - player is undefined', function() {
             (function() {
-                b.getPosition(0);
+                b.getPosition(3);
             }).should.throw();
         });
+
+        it('should get positions as expected', function() {
+            var pos0 = b.getPosition(0),
+                pos1 = b.getPosition(1),
+                pos2 = b.getPosition(2);
+
+            assert.isTrue(pos0.x != 1 && pos0.y != 1, "coordinate of player 0 is not (1,1)");
+            assert.isTrue(pos0.x == 2 && pos0.y == 3, "coordinate of player 0 is (2,3)");
+            assert.isTrue(pos1.x == 3 && pos1.y == 4, "coordinate of player 1 is (3,4)");
+            assert.isTrue(pos2.x == 7 && pos2.y == 7, "coordinate of player 2 is (7,7)");
+        });
+
     });
 
-    describe('#setPosition', function() {
-        // var b = module.initBitBoard(8,8); // create a 8x8 board
+    describe('#printBoard()', function() {
+        it('should print BitBoard content', function() {
+            module.printBoard(b);
+        });
     });
 
     describe('#getBoardCopy', function() {
     });
 });
-
-// console.log("BOARD UPDATE player 0 position to (3,0):");
-// b1.setPosition(0, 3, 0);
-// mBitBoard.printBoard(b1.bitboard);
-// console.log("BOARD UPDATE player 0 position to (4,0):");
-// b1.setPosition(0, 4, 0);
-// mBitBoard.printBoard(b1.bitboard);
-// console.log("BOARD UPDATE player 1 position to (1,1):");
-// b1.setPosition(1, 1, 1);
-// mBitBoard.printBoard(b1.bitboard);
-// console.log("BOARD UPDATE player 1 position to (1,5):");
-// b1.setPosition(1, 1, 5);
-// mBitBoard.printBoard(b1.bitboard);
-//
-// console.log("ANOTHER BOARD INITIALIZED:");
-// var b2 = mBitBoard.initBitBoard(8, 8);
-// mBitBoard.printBoard(b2.bitboard);
-// console.log("PREVIOUS BOARD:");
-// mBitBoard.printBoard(b1.bitboard);
-// console.log("BOARD UPDATE player 1 position to (1,5):");
-// b2.setPosition(1, 1, 5);
-// mBitBoard.printBoard(b2.bitboard);
-// console.log("player 1 position should be (1,5):");
-// var pos = b2.getPosition(1);
-// console.assert(pos.x==1 && pos.y==5);
-// console.log(pos);
