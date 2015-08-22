@@ -19,9 +19,9 @@
 define(function() {
     'use strict';
 
-    //==============================================//
-    // static constant variables for class BitBoard //
-    //==============================================//
+    //==========================================================//
+    // static constant variables shared by all BitBoard objects //
+    //==========================================================//
 
     /** @private */
     var width;
@@ -29,8 +29,8 @@ define(function() {
     /** @private */
     var height;
 
-    /** @const {number} - row mask of board row */
-    var ROW_MASK = 128;
+    /** @private - row mask of board row */
+    var ROW_MASK;
 
     /**
      * Represents a BitBoard: https://chessprogramming.wikispaces.com/Bitboards
@@ -43,6 +43,7 @@ define(function() {
     function BitBoard (w, h) {
         width      = w;
         height     = h;
+        ROW_MASK   = 1 << (width-1);
 
         /** @public */
         this.players  = [];
@@ -61,7 +62,20 @@ define(function() {
      */
     BitBoard.prototype.setPosition = function (player, x, y) {
 
-        // TODO: sanitize inputs as well, throw error for anomaly
+        if ( !checkNonNegativeInt(player) )
+        {
+            throw new Error("function setPosition expects the first argument to be an integer bigger or equal to 0");
+        }
+
+        if ( !checkPositiveInt(x) || x >= width )
+        {
+            throw new Error("function setPosition expects the second argument to be an integer bigger than 0 and smaller than " + width);
+        }
+
+        if ( !checkPositiveInt(y) || y >= height )
+        {
+            throw new Error("function setPosition expects the third argument to be an integer bigger than 0 and smaller than " + height);
+        }
 
         // check if position already used
         if ( this.bitboard[y] & (ROW_MASK >>> x) )
@@ -86,8 +100,8 @@ define(function() {
             throw new Error('player ' + player + ' is not defined yet!');
 
         return {
-            x: pos % 8,
-            y: Math.floor(pos/8)
+            x: pos % height,
+            y: Math.floor(pos/height)
         };
     };
 
@@ -112,12 +126,12 @@ define(function() {
      * A debugging method for this module; it is exposed to public interface.
      * It prints out the board state to console.
      *
-     * @param {Uint8Array} - the bitboard data structure to be printed
+     * @param {BitBoard} - the BitBoard object to be printed
      */
     var printBoard = function (board) {
 
         console.log();
-        console.log("bit-board looks like:");
+        console.log("bit-board looks like this:");
         console.log();
 
         var strBoard = "";
@@ -125,7 +139,7 @@ define(function() {
         {
             for (var col = 0; col < width; ++col)
             {
-                strBoard += (board[row]&(ROW_MASK>>>col))? "1" : "0"; 
+                strBoard += (board.bitboard[row]&(ROW_MASK>>>col))? "1" : "0"; 
             }
             strBoard += "\n";
         }
@@ -133,8 +147,19 @@ define(function() {
         console.log(strBoard);
     };
 
+    /** @function @private checkNonNegativeInt
+     * A helper function to safeguard the inputs to some functions in this module.
+     * It checks if the input value is a none-negative integer.
+     *
+     * @param {number} - the input to be checked
+     * @return {boolean} - check passed or not
+     */
+    var checkNonNegativeInt = function (x) {
+        return (typeof x==="number" && Math.floor(x)===x && x >= 0);
+    };
+
     /** @function @private checkPositiveInt
-     * A helper function to safeguard the inputs to initBitBoard function.
+     * A helper function to safeguard the inputs to some functions in this module.
      * It checks if the input value is a positive integer.
      *
      * @param {number} - the input to be checked
