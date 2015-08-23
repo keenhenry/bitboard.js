@@ -113,7 +113,7 @@ define(function() {
     BitBoard.prototype.getBoardCopy = function () {
         var board = new BitBoard(width, height);
 
-        board.player = this.player.slice();
+        board.players = this.players.slice();
 
         for (var r = 0; r < height; ++r) {
             board.bitboard[r] = this.bitboard[r];
