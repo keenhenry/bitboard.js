@@ -7,7 +7,7 @@ test:
 	mocha $(TESTS)
 
 lint:
-	jshint $(SRC)
+	jshint $(SRC) $(TESTS)
 
 docs:
 	jsdoc $(SRC)
