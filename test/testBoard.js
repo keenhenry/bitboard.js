@@ -71,7 +71,10 @@ describe('BitBoard', function() {
         });
     });
 
-    var b = module.initBitBoard(8,8); // create a 8x8 board
+    var b;
+    before(function() {
+        b = module.initBitBoard(8,8); // create a 8x8 board
+    });
 
     describe('#setPosition', function() {
 
@@ -130,5 +133,23 @@ describe('BitBoard', function() {
     });
 
     describe('#getBoardCopy', function() {
+        var copy;
+
+        before(function() {
+            copy = b.getBoardCopy();
+        });
+
+        it('should get a copy', function() {
+            assert.isTrue(b === b,    "BitBoard object should be equal to itself");
+            assert.isTrue(b !== copy, "BitBoard object should not equal to its copy");
+        });
+
+        it('should have equal contents in the copied object ', function() {
+            for (var i = 0; i < b.players.length; ++i)
+                assert.isTrue(b.players[i] == copy.players[i], "players should be the same");
+
+            for (var r = 0; r < b.bitboard.length; ++r)
+                assert.isTrue(b.bitboard[r] == copy.bitboard[r], "board contents should be the same");
+        });
     });
 });
