@@ -5,6 +5,9 @@
 
     "predef": [
         "require",
-        "define"
+        "define",
+        "describe",
+        "it",
+        "before"
     ]
 }
