@@ -4,11 +4,6 @@
     "description": "simple bitboard for developing board games in javascript",
     "author": "Henry Huang",
     "license": "MIT",
-    "devDependencies": {
-        "jshint": "latest",
-        "mocha" : "latest",
-        "chai"  : "*"
-    },
     "scripts": {
         "build": "make lint; make test",
         "lint" : "make lint",
