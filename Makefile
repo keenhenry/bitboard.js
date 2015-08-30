@@ -1,6 +1,6 @@
 .PHONY: test lint docs clean
 
-SRC=BitBoard.js
+SRC=bitboard.js
 TESTS=test/*.js
 
 test:
