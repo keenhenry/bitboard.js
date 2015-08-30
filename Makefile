@@ -1,6 +1,7 @@
-.PHONY: test lint docs clean
+.PHONY: test lint docs uglify clean
 
 SRC=bitboard.js
+fbname=`basename "$(SRC)" .js`
 TESTS=test/*.js
 
 test:
@@ -12,5 +13,8 @@ lint:
 docs:
 	jsdoc $(SRC)
 
+uglify:
+	uglifyjs $(SRC) -o "$(fbname)".min.js -c -m
+
 clean:
-	rm -rf *.log out/
+	rm -rf *.min.js *.log out/

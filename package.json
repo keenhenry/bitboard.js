@@ -5,7 +5,7 @@
     "author": "Henry Huang",
     "license": "MIT",
     "scripts": {
-        "build": "make lint; make test",
+        "build": "make lint; make test; make uglify",
         "lint" : "make lint",
         "test" : "make test",
         "clean": "make clean"
