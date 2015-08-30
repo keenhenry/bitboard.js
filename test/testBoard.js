@@ -11,7 +11,7 @@ requirejs.config({
 
 describe('BitBoard', function() {
 
-    var module = requirejs('./BitBoard.js'),
+    var module = requirejs('./bitboard.js'),
         assert = chai.assert,
         should = chai.should();
 
